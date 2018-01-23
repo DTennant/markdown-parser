@@ -49,7 +49,7 @@ private:
 public:
 	Toker(ifstream _in_file)
 		: in_file(_in_file){}
-	~Toker();
+	~Toker(){}
 	vector<char> readfile();
 	vector<Token> run(void);
 };

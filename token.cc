@@ -48,7 +48,7 @@ vector<Token> Toker::run(void){
 		switch(this->check(*iter)){
 			case SINGLE_TOKEN:
 			{
-				PUSH_SINGLE_TOKEN_2_LIST(this->token_map[*iter++]);
+				Token_list.push_back(Token(this->token_map[*iter],*iter++));
 				break;
 			}
 			case MULT_TOKEN:
@@ -59,7 +59,7 @@ vector<Token> Toker::run(void){
 						while(*iter == '-')raw += *iter++;
 						Token_list.push_back(Token(T_SPLITS, raw))
 					}else{
-						PUSH_SINGLE_TOKEN_2_LIST(this->token_map[*iter++]);
+						Token_list.push_back(Token(this->token_map[*iter], *iter++));
 					}
 				}else if(*iter == '#'){
 					int cnt = 1;

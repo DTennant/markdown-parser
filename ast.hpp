@@ -9,5 +9,6 @@ public:
 };
 
 
+#include "ast.cc"
 
 #endif
