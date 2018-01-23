@@ -33,5 +33,8 @@ int main(int argc, char const *argv[]){
 
 	out_file << tree.eval() << endl;
 
+	in_file.close();
+	out_file.close();
+
 	return 0;
 }
