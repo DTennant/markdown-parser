@@ -4,15 +4,21 @@
 #include "token.hpp"
 #include "ast.hpp"
 #include <vector>
+#include <string>
 
 using std::vector;
+using std::string;
 
 class Parser{
 private:
+	//data
 	vector<Token> Token_list;
 	vector<Token>::iterator Token_list_iter;
+	//helper functions
 	Token peek(void);
 	bool eat_token(void);
+	vector<string> get_url_des();
+	
 	Ast parse_everything(void);
 	void parse_header(Ast&);
 	void parse_splits(Ast&);
@@ -30,5 +36,6 @@ public:
 	
 	Ast run(void);
 };
+
 
 #endif

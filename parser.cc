@@ -13,6 +13,25 @@ bool Parser::eat_token(void){
 	return true;
 }
 
+vector<string> Parser::get_url_des(){
+	vector<string> contents;
+	//if(this->peek().token_type != T_BL) Error
+	eat_token();
+	//if(this->peek().token_type != T_RAW) Error
+	contents.push_back(ATTR_ITER(content));
+	eat_token();
+	//if(this->peek().token_type != T_BR) Error
+	eat_token();
+	//if(this->peek().token_type != T_SL) Error
+	eat_token();
+	//if(this->peek().token_type != T_RAW) Error
+	contents.push_back(ATTR_ITER(content));
+	eat_token();
+	//if(this->peek().token_type != T_SR) Error
+	eat_token();
+	return contents;
+}
+
 //tree.contents[0] is the num of the header
 //tree.contents[1] is the description of the header
 void Parser::parse_header(Ast& tree){
@@ -20,38 +39,52 @@ void Parser::parse_header(Ast& tree){
 	vector<string> contents;
 	contents.push_back(to_string(ATTR_ITER(content.size())));
 	this->eat_token();
-	//if(this->peek() != T_RAW) Error
+	//if(this->peek().token_type != T_RAW) Error
 	contents.push_back(ATTR_ITER(content));
-	//if(this->peek() != T_EOL) Error
+	//if(this->peek().token_type != T_EOL) Error
 	eat_token();
 	Ast head_ast(HEAD_AST, contents);
 	tree.add_child(head_ast);
 }
 
 void Parser::parse_splits(Ast& tree){
-
+	Ast splits_ast(SPLITS_AST);
+	tree.add_child(splits_ast);
+	eat_token();
 }
 
 void Parser::parse_quote(Ast& tree){
-
+	//TODO
 }
 
-void Parser::parse_order(Ast& tree){
+void Parser::parse_list(Ast& tree){
+	//TODO
+}
 
+void Parser::parse_raw(Ast& tree){
+	Ast_type tree_type = RAW_AST;
+	vector<string> contents;
+	contents.push_back(ATTR_ITER(content));
+	Ast raw_ast(RAW_AST, contents);
+	tree.add_child(raw_ast);
+	eat_token();
 }
 
 //tree.contents[0] is src, tree.contents[1] is description
 void Parser::parse_img(Ast& tree){
-
+	eat_token();
+	vector<string> contents = get_url_des();
+	Ast_type tree_type = IMG_AST;
+	Ast img_ast(IMG_AST, contents);
+	tree.add_child(img_ast);
 }
 
 //tree.contents[0] is src, tree.contents[1] is description
 void Parser::parse_url(Ast& tree){
-
-}
-
-void Parser::parse_raw(Ast& tree){
-	
+	vector<string> contents = get_url_des();
+	Ast_type tree_type = URL_AST;
+	Ast url_ast(URL_AST, contents);
+	tree.add_child(url_ast);
 }
 
 Ast Parser::parse_everything(void){
@@ -73,9 +106,9 @@ Ast Parser::parse_everything(void){
 				this->parse_quote(tree);
 				break;
 			}
-			case T_ORDER:
+			case T_LIST:
 			{
-				this->parse_order(tree);
+				this->parse_list(tree);
 				break;
 			}
 			case T_NOT:
