@@ -45,7 +45,7 @@ void Parser::parse_raw(Ast& tree){
 }
 
 Ast Parser::parse_everything(void){
-	Ast tree(AST_TOP);
+	Ast tree(TOP_AST);
 	for(;this->Token_list_iter != this->Token_list.end();){
 		switch(this->peek()->token_type){
 			case T_HEADER:

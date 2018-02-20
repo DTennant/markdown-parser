@@ -8,8 +8,15 @@ using std::vector;
 using std::string;
 
 enum Ast_type{
-	AST_TOP, // special type : it's the tree at the top
-
+	TOP_AST, // special type : it's the tree at the top
+	HEAD_AST, //T_HEADER
+	DASH_AST, //T_DASH
+	SPLITS_AST, //T_SPLITS
+	QUOTE_AST, //T_QUOTE
+	ORDER_AST, //T_ORDER
+	IMG_AST, //T_NOT
+	URL_AST, //T_BL
+	RAW_AST, //T_RAW
 };
 
 class Ast{
