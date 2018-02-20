@@ -7,3 +7,4 @@ A simple markdown parser
 - in `parser.cc` : everything
 - in `global.hpp` : some helper function
 - proper test
+- mind the `T_EOL` token
