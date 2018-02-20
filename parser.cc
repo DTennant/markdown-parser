@@ -16,10 +16,6 @@ void Parser::parse_header(Ast& tree){
 
 }
 
-void Parser::parse_dash(Ast& tree){
-
-}
-
 void Parser::parse_splits(Ast& tree){
 
 }
@@ -51,11 +47,6 @@ Ast Parser::parse_everything(void){
 			case T_HEADER:
 			{
 				this->parse_header(tree);
-				break;
-			}
-			case T_DASH:
-			{
-				this->parse_dash(tree);
 				break;
 			}
 			case T_SPLITS:

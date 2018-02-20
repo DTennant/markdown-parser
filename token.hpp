@@ -15,16 +15,16 @@ using std::string;
 
 enum Token_type{
 	T_HEADER, // num of '#' bigger than 6 is T_RAW
-	T_DASH, // num of '-' bigger than 1 is splits
 	T_SPLITS,
 	T_QUOTE,
-	T_ORDER,
+	T_LIST,
 	T_BL,
 	T_BR,
 	T_SL,
 	T_SR,
 	T_NOT,
-	T_RAW
+	T_RAW,
+	T_EOL
 };
 
 class Token{
@@ -45,7 +45,7 @@ private:
 	map<char, Token_type> token_map;
 	void init_map(void);
 	char check(char);
-	bool israw(char ch){return (isalnum(ch) || isspace(ch));};
+	bool israw(char ch){return (isalnum(ch) || (isspace(ch) && ch != '\n'));};
 public:
 	Toker(ifstream _in_file)
 		: in_file(_in_file){}

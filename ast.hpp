@@ -10,10 +10,9 @@ using std::string;
 enum Ast_type{
 	TOP_AST, // special type : it's the tree at the top
 	HEAD_AST, //T_HEADER
-	DASH_AST, //T_DASH
 	SPLITS_AST, //T_SPLITS
 	QUOTE_AST, //T_QUOTE
-	ORDER_AST, //T_ORDER
+	LIST_AST, //T_ORDER
 	IMG_AST, //T_NOT
 	URL_AST, //T_BL
 	RAW_AST, //T_RAW
@@ -31,7 +30,7 @@ public:
 		vector<string> _contents)
 		: tree_type(_tree_type),
 			contents(_contens){}
-	~Ast();
+	~Ast(){};
 	string eval();
 	void add_child(int);
 };
@@ -39,6 +38,15 @@ public:
 vector<Ast> tree_list;
 
 int add_ast(Ast);
+
+
+string eval_head(const Ast&);
+string eval_splits(const Ast&);
+string eval_quote(const Ast&);
+string eval_list(const Ast&);
+string eval_img(const Ast&);
+string eval_url(const Ast&);
+string eval_raw(const Ast&);
 
 //#include "ast.cc"
 

@@ -26,12 +26,13 @@ vector<char> Toker::readfile(void){
 
 void Toker::init_map(void){
 	token_map.insert(make_pair('>', T_QUOTE));
-	token_map.insert(make_pair('*', T_ORDER));
+	token_map.insert(make_pair('*', T_LIST));
 	token_map.insert(make_pair('[', T_BL));
 	token_map.insert(make_pair(']', T_BR));
 	token_map.insert(make_pair('(', T_SL));
 	token_map.insert(make_pair(')', T_SR));
 	token_map.insert(make_pair('!', T_NOT));
+	token_map.insert(make_pair('\n', T_EOL));
 }
 
 char Toker::check(char ch){
@@ -44,7 +45,6 @@ vector<Token> Toker::run(void){
 	vector<char> contents = this->readfile();
 	this->init_map();
 	for(auto iter = contents.begin(); iter != contents.end();){
-		if(*iter == '\n')continue;
 		switch(this->check(*iter)){
 			case SINGLE_TOKEN:
 			{
@@ -59,7 +59,7 @@ vector<Token> Toker::run(void){
 						while(*iter == '-')raw += *iter++;
 						Token_list.push_back(Token(T_SPLITS, raw))
 					}else{
-						Token_list.push_back(Token(this->token_map[*iter], *iter++));
+						Token_list.push_back(Token(T_RAW, *iter++));
 					}
 				}else if(*iter == '#'){
 					int cnt = 1;
@@ -68,6 +68,7 @@ vector<Token> Toker::run(void){
 				}
 				break;
 			}
+			case ELSE:
 			default:// raw
 			{
 				string raw;

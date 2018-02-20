@@ -15,7 +15,6 @@ private:
 	bool eat_token(void);
 	Ast parse_everything(void);
 	void parse_header(Ast&);
-	void parse_dash(Ast&);
 	void parse_splits(Ast&);
 	void parse_quote(Ast&);
 	void parse_order(Ast&);
