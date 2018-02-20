@@ -1,13 +1,9 @@
 #include "ast.hpp"
 
 
-void Ast::add_child(int i){
-	this->child.push_back(i);
-}
-
-int add_ast(Ast tree){
+void Ast::add_child(Ast &tree){
 	tree_list.push_back(tree);
-	return tree_list.size() - 1;
+	this->child.push_back(tree_list.size() - 1);
 }
 
 string Ast::eval(){
@@ -45,11 +41,8 @@ string eval_head(const Ast &tree){
 	string before_string, after_string, return_string;
 	before_string = "<h" + tree.contents[0] + ">"; // for header tree, contents[0] is the num of header
 	after_string = "</h" + tree.contents[0] + ">";
-	return_string += before_string;
-	for(auto i : tree.child){
-		return_string += tree_list[*i].eval();
-	}
-	return_string += after_string;
+	return_string += before_string + tree.contents[1] + before_string;
+	//contents[1] is description of this header
 	return return_string;
 }
 

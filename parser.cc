@@ -1,19 +1,31 @@
 #include "parser.hpp"
 #include "ast.hpp"
-
+#define ATTR_ITER(x) this->Token_list_iter->x
 
 Token Parser::peek(void){
 	return *this->Token_list_iter;
 }
 
+// TODO: Error handler
 bool Parser::eat_token(void){
 	this->Token_list_iter++;
 	if(this->Token_list_iter == this->Token_list.end())return false;
 	return true;
 }
 
+//tree.contents[0] is the num of the header
+//tree.contents[1] is the description of the header
 void Parser::parse_header(Ast& tree){
-
+	Ast_type tree_type = HEAD_AST;
+	vector<string> contents;
+	contents.push_back(to_string(ATTR_ITER(content.size())));
+	this->eat_token();
+	//if(this->peek() != T_RAW) Error
+	contents.push_back(ATTR_ITER(content));
+	//if(this->peek() != T_EOL) Error
+	eat_token();
+	Ast head_ast(HEAD_AST, contents);
+	tree.add_child(head_ast);
 }
 
 void Parser::parse_splits(Ast& tree){
@@ -28,10 +40,12 @@ void Parser::parse_order(Ast& tree){
 
 }
 
+//tree.contents[0] is src, tree.contents[1] is description
 void Parser::parse_img(Ast& tree){
 
 }
 
+//tree.contents[0] is src, tree.contents[1] is description
 void Parser::parse_url(Ast& tree){
 
 }

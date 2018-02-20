@@ -29,7 +29,7 @@ public:
 	Ast(Ast_type _tree_type,
 		vector<string> _contents)
 		: tree_type(_tree_type),
-			contents(_contens){}
+			contents(_contents){}
 	~Ast(){};
 	string eval();
 	void add_child(int);
