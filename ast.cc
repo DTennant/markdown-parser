@@ -52,8 +52,8 @@ string eval_splits(const Ast &tree){
 
 string eval_quote(const Ast &tree){
 	string return_string("<blockquote>"), after_string("</blockquote>")
-	for(auto i : tree.child){
-		return_string += tree_list[*i].eval();
+	for(auto i : contents){
+		return_string += *i + string("<br />")
 	}
 	return return_string + after_string;
 }

@@ -38,7 +38,7 @@ void Parser::parse_header(Ast& tree){
 	Ast_type tree_type = HEAD_AST;
 	vector<string> contents;
 	contents.push_back(to_string(ATTR_ITER(content.size())));
-	this->eat_token();
+	eat_token();
 	//if(this->peek().token_type != T_RAW) Error
 	contents.push_back(ATTR_ITER(content));
 	//if(this->peek().token_type != T_EOL) Error
@@ -53,12 +53,25 @@ void Parser::parse_splits(Ast& tree){
 	eat_token();
 }
 
+//now this did not support recursive structure
+//tree.contents is the items of the quote
+//TODO: recursive structure
 void Parser::parse_quote(Ast& tree){
-	//TODO
+	Ast_type tree_type = QUOTE_AST;
+	vector<string> contents;
+	for(;this->peek().token_type == T_QUOTE;){
+		eat_token();
+		//if(this->peek().token_type != T_RAW) Error
+		contents.push_back(ATTR_ITER(content));
+		eat_token();
+	}
+	Ast quote_ast(tree_type, contents);
+	tree.add_child(quote_ast);
 }
 
+//tree.contents is the items of the list
 void Parser::parse_list(Ast& tree){
-	//TODO
+	
 }
 
 void Parser::parse_raw(Ast& tree){
@@ -121,7 +134,13 @@ Ast Parser::parse_everything(void){
 				this->parse_url(tree);
 				break;
 			}
+			case T_EOL:
+			{
+				this->eat_token();
+				break;
+			}
 			case T_RAW:
+			default:
 			{
 				this->parse_raw(tree);
 				break;
