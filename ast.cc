@@ -59,7 +59,11 @@ string eval_quote(const Ast &tree){
 }
 
 string eval_list(const Ast &tree){
-	//TODO
+	string return_string("<ul>"), after_string("</ul>")
+	for(auto i : contents){
+		return_string += string("<li>") + *i + string("</li>"); 
+	}
+	return return_string + after_string;
 }
 
 string eval_img(const Ast &tree){

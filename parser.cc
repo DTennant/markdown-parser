@@ -71,7 +71,16 @@ void Parser::parse_quote(Ast& tree){
 
 //tree.contents is the items of the list
 void Parser::parse_list(Ast& tree){
-	
+	Ast_type tree_type = LIST_AST;
+	vector<string> contents;
+	for(;this->peek().token_type == T_LIST;){
+		eat_token();
+		//if(this->peek().token_type != T_RAW) Error
+		contents.push_back(ATTR_ITER(content));
+		eat_token();
+	}
+	Ast list_ast(tree_type, contents);
+	tree.add_child(list_ast);
 }
 
 void Parser::parse_raw(Ast& tree){
