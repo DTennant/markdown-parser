@@ -47,8 +47,11 @@ private:
 	char check(char);
 	bool israw(char ch){return (isalnum(ch) || (isspace(ch) && ch != '\n'));};
 public:
-	Toker(ifstream _in_file)
-		: in_file(_in_file){}
+	Toker(const char *file_name)
+		//: in_file(_in_file){}
+	{
+		in_file.open(file_name);
+	}
 	~Toker(){}
 	vector<char> readfile();
 	vector<Token> run(void);

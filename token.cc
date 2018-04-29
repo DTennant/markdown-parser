@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdio>
 #include <map>
+#include <algorithm>
 
 #define PUSH_SINGLE_TOKEN_2_LIST(x) this->Token_list.push_back(Token((x), *iter))
 #define MULT_TOKEN 0
@@ -10,6 +11,7 @@
 #define ELSE 2
 
 using std::map;
+using std::make_pair;
 using std::vector;
 using std::ifstream;
 
@@ -48,7 +50,7 @@ vector<Token> Toker::run(void){
 		switch(this->check(*iter)){
 			case SINGLE_TOKEN:
 			{
-				Token_list.push_back(Token(this->token_map[*iter],*iter++));
+				Token_list.push_back(Token(this->token_map[*iter], string(*iter++)));
 				break;
 			}
 			case MULT_TOKEN:
@@ -59,7 +61,7 @@ vector<Token> Toker::run(void){
 						while(*iter == '-')raw += *iter++;
 						Token_list.push_back(Token(T_SPLITS, raw))
 					}else{
-						Token_list.push_back(Token(T_RAW, *iter++));
+						Token_list.push_back(Token(T_RAW, string(*iter++)));
 					}
 				}else if(*iter == '#'){
 					int cnt = 1;

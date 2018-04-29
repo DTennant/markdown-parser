@@ -27,7 +27,7 @@ int main(int argc, char const *argv[]){
 	in_file.open(argv[1]);
 	out_file.open(argv[2]);
 
-	Toker t(in_file);
+	Toker t(argv[1]);
 	Parser p(t.run());
 	Ast tree(p.run());
 
