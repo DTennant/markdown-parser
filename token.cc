@@ -43,6 +43,12 @@ char Toker::check(char ch){
 	else return SINGLE_TOKEN;
 }
 
+string char2string(char ch){
+	string s;
+	s += ch;
+	return s;
+}
+
 vector<Token> Toker::run(void){
 	vector<char> contents = this->readfile();
 	this->init_map();
@@ -50,7 +56,7 @@ vector<Token> Toker::run(void){
 		switch(this->check(*iter)){
 			case SINGLE_TOKEN:
 			{
-				Token_list.push_back(Token(this->token_map[*iter], string(*iter++)));
+				Token_list.push_back(Token(this->token_map[*iter], char2string(*iter++)));
 				break;
 			}
 			case MULT_TOKEN:
@@ -59,14 +65,17 @@ vector<Token> Toker::run(void){
 					if(*(iter + 1) == '-'){
 						string raw;
 						while(*iter == '-')raw += *iter++;
-						Token_list.push_back(Token(T_SPLITS, raw))
+						Token_list.push_back(Token(T_SPLITS, raw));
 					}else{
-						Token_list.push_back(Token(T_RAW, string(*iter++)));
+						Token_list.push_back(Token(T_RAW, char2string(*iter++)));
 					}
 				}else if(*iter == '#'){
 					int cnt = 1;
-					while(*(++iter) == '#')cnt++;
-					Token_list.push_back(Token(cnt <= 6 ? T_HEADER : T_RAW, string('#') * cnt));
+					string sharp_string;
+					while(*(++iter) == '#'){
+						sharp_string += '#';
+					}
+					Token_list.push_back(Token(cnt <= 6 ? T_HEADER : T_RAW, sharp_string));
 				}
 				break;
 			}

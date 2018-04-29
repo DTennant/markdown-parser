@@ -27,6 +27,7 @@ private:
 	void parse_img(Ast&);
 	void parse_url(Ast&);
 	void parse_raw(Ast&);
+	void parse_list(Ast&);
 public:
 	Parser(vector<Token> _Token_list)
 			: Token_list(_Token_list){

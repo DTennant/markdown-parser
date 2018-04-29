@@ -29,9 +29,9 @@ enum Token_type{
 
 class Token{
 private:
+public:
 	Token_type token_type;
 	string content;
-public:
 	Token(Token_type type, string _content)
 		: content(_content), 
 			token_type(type){}

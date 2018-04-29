@@ -2,6 +2,8 @@
 #include "ast.hpp"
 #define ATTR_ITER(x) this->Token_list_iter->x
 
+using std::to_string;
+
 Token Parser::peek(void){
 	return *this->Token_list_iter;
 }
@@ -112,7 +114,7 @@ void Parser::parse_url(Ast& tree){
 Ast Parser::parse_everything(void){
 	Ast tree(TOP_AST);
 	for(;this->Token_list_iter != this->Token_list.end();){
-		switch(this->peek()->token_type){
+		switch(this->peek().token_type){
 			case T_HEADER:
 			{
 				this->parse_header(tree);

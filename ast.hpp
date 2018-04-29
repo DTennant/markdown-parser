@@ -32,7 +32,7 @@ public:
 			contents(_contents){}
 	~Ast(){};
 	string eval();
-	void add_child(int);
+	void add_child(Ast&);
 };
 
 vector<Ast> tree_list;
