@@ -1,5 +1,7 @@
 #include "ast.hpp"
+#include "debug.hpp"
 
+vector<Ast> tree_list;
 
 void Ast::add_child(Ast &tree){
 	tree_list.push_back(tree);
@@ -10,28 +12,31 @@ string Ast::eval(){
 	string return_string;
 	switch(this->tree_type){
 		case HEAD_AST:
-			return_string += eval_head(tree);
+			return_string += eval_head(*this);
 		break;
 		case SPLITS_AST:
-			return_string += eval_splits(tree);
+			return_string += eval_splits(*this);
 		break;
 		case QUOTE_AST:
-			return_string += eval_quote(tree);
+			return_string += eval_quote(*this);
 		break;
 		case LIST_AST:
-			return_string += eval_list(tree);
+			return_string += eval_list(*this);
 		break;
 		case IMG_AST:
-			return_string += eval_img(tree);
+			return_string += eval_img(*this);
 		break;
 		case URL_AST:
-			return_string += eval_url(tree);
+			return_string += eval_url(*this);
 		break;
 		case RAW_AST:
-			return_string += eval_raw(tree);
+			return_string += eval_raw(*this);
 		break;
 		case TOP_AST:
 			//TODO: foreach sub-tree eval it
+			for (auto i : this->child) {
+				return_string += tree_list[i].eval();
+			}
 		break;
 	}
 	return return_string;
@@ -47,21 +52,21 @@ string eval_head(const Ast &tree){
 }
 
 string eval_splits(const Ast &tree){
-	return string("<hr />")
+	return string("<hr />");
 }
 
 string eval_quote(const Ast &tree){
-	string return_string("<blockquote>"), after_string("</blockquote>")
-	for(auto i : contents){
-		return_string += *i + string("<br />")
+	string return_string("<blockquote>"), after_string("</blockquote>");
+	for(auto i : tree.contents){
+		return_string += i + string("<br />");
 	}
 	return return_string + after_string;
 }
 
 string eval_list(const Ast &tree){
-	string return_string("<ul>"), after_string("</ul>")
-	for(auto i : contents){
-		return_string += string("<li>") + *i + string("</li>"); 
+	string return_string("<ul>"), after_string("</ul>");
+	for(auto i : tree.contents){
+		return_string += string("<li>") + i + string("</li>"); 
 	}
 	return return_string + after_string;
 }

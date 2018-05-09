@@ -1,6 +1,8 @@
 #ifndef _TOKEN_H
 #define _TOKEN_H
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <fstream>
 #include <vector>
 #include <string>
@@ -32,14 +34,13 @@ private:
 public:
 	Token_type token_type;
 	string content;
-	Token(Token_type type, string _content)
-		: content(_content), 
-			token_type(type){}
+	Token(Token_type type, string _content): content(_content), token_type(type){}
 	~Token(){}
 };
 
 class Toker{
 private:
+	string file_name_;
 	ifstream in_file;
 	vector<Token> Token_list;
 	map<char, Token_type> token_map;
@@ -51,6 +52,10 @@ public:
 		//: in_file(_in_file){}
 	{
 		in_file.open(file_name);
+		this->file_name_ = string(file_name);
+#ifdef _DEBUG
+		printf("%s\n", this->file_name_.c_str());
+#endif // _DEBUG
 	}
 	~Toker(){}
 	vector<char> readfile();

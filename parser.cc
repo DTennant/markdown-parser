@@ -1,5 +1,7 @@
 #include "parser.hpp"
 #include "ast.hpp"
+#include "debug.hpp"
+
 #define ATTR_ITER(x) this->Token_list_iter->x
 
 using std::to_string;

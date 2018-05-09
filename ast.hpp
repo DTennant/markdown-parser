@@ -19,7 +19,8 @@ enum Ast_type{
 };
 
 class Ast{
-private:
+//private:
+public:
 	Ast_type tree_type;
 	vector<int> child;
 	vector<string> contents;
@@ -35,7 +36,6 @@ public:
 	void add_child(Ast&);
 };
 
-vector<Ast> tree_list;
 
 int add_ast(Ast);
 
