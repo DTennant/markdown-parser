@@ -40,12 +40,12 @@ int main(int argc, char const *argv[]){
 
 	Parser p(token_res);
 	Ast tree = p.run();
-/*
+
 	out_file << tree.eval() << endl;
-*/
+
 	in_file.close();
 	out_file.close();
-
+#undef DEBUG
 #ifdef DEBUG
 	system("pause");
 #endif

@@ -45,7 +45,7 @@ string eval_head(const Ast &tree){
 	string before_string, after_string, return_string;
 	before_string = "<h" + tree.contents[0] + ">"; // for header tree, contents[0] is the num of header
 	after_string = "</h" + tree.contents[0] + ">";
-	return_string += before_string + tree.contents[1] + before_string;
+	return_string += before_string + tree.contents[1] + after_string;
 	//contents[1] is description of this header
 	return return_string;
 }
