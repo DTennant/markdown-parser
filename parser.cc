@@ -1,6 +1,7 @@
 #include "parser.hpp"
 #include "ast.hpp"
 #include "debug.hpp"
+#undef DEBUG
 
 #define ATTR_ITER(x) this->Token_list_iter->x
 
@@ -48,11 +49,20 @@ void Parser::parse_header(Ast& tree){
 	//if(this->peek().token_type != T_EOL) Error
 	eat_token();
 	Ast head_ast(HEAD_AST, contents);
+#ifdef DEBUG
+	cout << "ast tree_type: " << head_ast.tree_type << endl
+		<< " tree contents[0]: " << head_ast.contents[0] << endl
+		<< " tree contents[1]: " << head_ast.contents[1] << endl;
+#endif // DEBUG
+
 	tree.add_child(head_ast);
 }
 
 void Parser::parse_splits(Ast& tree){
 	Ast splits_ast(SPLITS_AST);
+#ifdef DEBUG
+	cout << "ast tree_type: " << splits_ast.tree_type << endl;
+#endif // DEBUG
 	tree.add_child(splits_ast);
 	eat_token();
 }
@@ -70,6 +80,13 @@ void Parser::parse_quote(Ast& tree){
 		eat_token();
 	}
 	Ast quote_ast(tree_type, contents);
+#ifdef DEBUG
+	cout << "ast tree_type: " << quote_ast.tree_type << endl;
+	for (int i = 0; i < quote_ast.contents.size(); ++i) {
+		cout << " tree contents[" << i << "]: " << quote_ast.contents[i] << endl;
+	}
+#endif // DEBUG
+
 	tree.add_child(quote_ast);
 }
 
@@ -84,6 +101,13 @@ void Parser::parse_list(Ast& tree){
 		eat_token();
 	}
 	Ast list_ast(tree_type, contents);
+#ifdef DEBUG
+	cout << "ast tree_type: " << list_ast.tree_type << endl;
+	for (int i = 0; i < list_ast.contents.size(); ++i) {
+		cout << " tree contents[" << i << "]: " << list_ast.contents[i] << endl;
+	}
+#endif // DEBUG
+
 	tree.add_child(list_ast);
 }
 
@@ -92,6 +116,12 @@ void Parser::parse_raw(Ast& tree){
 	vector<string> contents;
 	contents.push_back(ATTR_ITER(content));
 	Ast raw_ast(RAW_AST, contents);
+#ifdef DEBUG
+	cout << "ast tree_type: " << raw_ast.tree_type << endl;
+	for (int i = 0; i < raw_ast.contents.size(); ++i) {
+		cout << " tree contents[" << i << "]: " << raw_ast.contents[i] << endl;
+	}
+#endif // DEBUG
 	tree.add_child(raw_ast);
 	eat_token();
 }
@@ -102,6 +132,12 @@ void Parser::parse_img(Ast& tree){
 	vector<string> contents = get_url_des();
 	Ast_type tree_type = IMG_AST;
 	Ast img_ast(IMG_AST, contents);
+#ifdef DEBUG
+	cout << "ast tree_type: " << img_ast.tree_type << endl;
+	for (int i = 0; i < img_ast.contents.size(); ++i) {
+		cout << " tree contents[" << i << "]: " << img_ast.contents[i] << endl;
+	}
+#endif // DEBUG
 	tree.add_child(img_ast);
 }
 
@@ -110,51 +146,88 @@ void Parser::parse_url(Ast& tree){
 	vector<string> contents = get_url_des();
 	Ast_type tree_type = URL_AST;
 	Ast url_ast(URL_AST, contents);
+#ifdef DEBUG
+	cout << "ast tree_type: " << url_ast.tree_type << endl;
+	for (int i = 0; i < url_ast.contents.size(); ++i) {
+		cout << " tree contents[" << i << "]: " << url_ast.contents[i] << endl;
+	}
+#endif // DEBUG
 	tree.add_child(url_ast);
 }
 
 Ast Parser::parse_everything(void){
+#ifdef DEBUG
+	cout << "into parse_everything" << endl;
+#endif
 	Ast tree(TOP_AST);
 	for(;this->Token_list_iter != this->Token_list.end();){
+#ifdef DEBUG
+		cout << "token_type: " << this->peek().token_type
+			<< " contents: " << this->peek().content << endl;
+#endif // DEBUG
 		switch(this->peek().token_type){
 			case T_HEADER:
 			{
+#ifdef DEBUG
+				cout << "parse_header" << endl;
+#endif // DEBUG
 				this->parse_header(tree);
 				break;
 			}
 			case T_SPLITS:
 			{
+#ifdef DEBUG
+				cout << "parse_splits" << endl;
+#endif // DEBUG
 				this->parse_splits(tree);
 				break;
 			}
 			case T_QUOTE:
 			{
+#ifdef DEBUG
+				cout << "parse_quote" << endl;
+#endif // DEBUG
 				this->parse_quote(tree);
 				break;
 			}
 			case T_LIST:
 			{
+#ifdef DEBUG
+				cout << "parse_list" << endl;
+#endif // DEBUG
 				this->parse_list(tree);
 				break;
 			}
 			case T_NOT:
 			{
+#ifdef DEBUG
+				cout << "parse_img" << endl;
+#endif // DEBUG
 				this->parse_img(tree);
 				break;
 			}
 			case T_BL:
 			{
+#ifdef DEBUG
+				cout << "parse_url" << endl;
+#endif // DEBUG
 				this->parse_url(tree);
 				break;
 			}
 			case T_EOL:
 			{
+#ifdef DEBUG
+				cout << "parse_eol" << endl;
+#endif // DEBUG
 				this->eat_token();
 				break;
 			}
 			case T_RAW:
 			default:
 			{
+#ifdef DEBUG
+				cout << "parse_raw" << endl;
+#endif // DEBUG
 				this->parse_raw(tree);
 				break;
 			}
@@ -168,10 +241,16 @@ Ast Parser::run(void){
 	for(vector<Token>::iterator iter = this->Token_list.begin();
 		iter != this->Token_list.end();
 		++iter){
-		if(iter->token_type == T_NOT
-			&& (iter + 1)->token_type != T_BL){
+		if(iter->token_type == T_NOT && (iter + 1)->token_type != T_BL){
 			iter->token_type = T_RAW;
 		}
 	}
+#undef DEBUG
+#ifdef DEBUG
+	for (vector<Token>::iterator i = Token_list.begin(); i != Token_list.end(); ++i) {
+		cout << "token_type: " << i->token_type
+			<< " contents: " << i->content << endl;
+	}
+#endif // DEBUG
 	return this->parse_everything();
 }

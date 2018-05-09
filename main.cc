@@ -38,27 +38,16 @@ int main(int argc, char const *argv[]){
 
 	vector<Token> token_res = t.run();
 
-#ifdef DEBUG
-	cout << "finished token" << endl;
-#endif // DEBUG
-
-/*
-	log_file << "Writing token list into log" << endl;
-
-	for (auto i : token_res) {
-		log_file << "token_type: " << i.token_type 
-			<< " token_content" << i.content << endl;
-	}
-
 	Parser p(token_res);
-	Ast tree(p.run());
-
+	Ast tree = p.run();
+/*
 	out_file << tree.eval() << endl;
 */
 	in_file.close();
 	out_file.close();
 
+#ifdef DEBUG
 	system("pause");
-
+#endif
 	return 0;
 }

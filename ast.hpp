@@ -25,20 +25,14 @@ public:
 	vector<int> child;
 	vector<string> contents;
 public:
-	Ast(Ast_type _tree_type)
-		: tree_type(_tree_type){}
-	Ast(Ast_type _tree_type,
-		vector<string> _contents)
-		: tree_type(_tree_type),
-			contents(_contents){}
+	Ast(Ast_type _tree_type): tree_type(_tree_type){}
+	Ast(Ast_type _tree_type, vector<string> _contents): tree_type(_tree_type), contents(_contents){}
 	~Ast(){};
 	string eval();
 	void add_child(Ast&);
 };
 
-
 int add_ast(Ast);
-
 
 string eval_head(const Ast&);
 string eval_splits(const Ast&);

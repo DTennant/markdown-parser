@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include "config.hpp"
+#include <iostream>
 #include <cstdio>
 #include <map>
 
@@ -14,6 +15,8 @@ using std::map;
 using std::vector;
 using std::ifstream;
 using std::string;
+using std::cout;
+using std::endl;
 
 enum Token_type{
 	T_HEADER, // num of '#' bigger than 6 is T_RAW
@@ -53,9 +56,7 @@ public:
 	{
 		in_file.open(file_name);
 		this->file_name_ = string(file_name);
-#ifdef _DEBUG
-		printf("%s\n", this->file_name_.c_str());
-#endif // _DEBUG
+		cout << "Processing: " << this->file_name_ << endl;
 	}
 	~Toker(){}
 	vector<char> readfile();

@@ -33,7 +33,6 @@ string Ast::eval(){
 			return_string += eval_raw(*this);
 		break;
 		case TOP_AST:
-			//TODO: foreach sub-tree eval it
 			for (auto i : this->child) {
 				return_string += tree_list[i].eval();
 			}
